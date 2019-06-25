@@ -1,9 +1,5 @@
-import React from 'react'
 import renderApp from '../renderApp'
-
-const app = () => (
-  <div>This is the documents app</div>
-)
+import app from './components'
 
 renderApp({
   app,
