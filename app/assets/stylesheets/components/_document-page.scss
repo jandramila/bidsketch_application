@@ -1,0 +1,27 @@
+.document-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__page {
+    width: 693px;
+    height: 899px;
+    border: 1px solid #9EA0AB;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;    
+    align-items: center;
+    padding-top: 200px;
+  }
+
+  &__checkbox {
+    transform: scale(1.3);
+  }
+
+  &__checkbox + &__checkbox {
+    margin-top: 42px;
+  }
+}
