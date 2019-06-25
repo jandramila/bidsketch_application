@@ -1,18 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
+import renderApp from '../renderApp'
+import app from './components'
+import store from './store'
 
-import App from './components'
-import appStore from './store'
-
-const render = Component => {
-  document.body.className = 'example'
-  ReactDOM.render(
-    <Provider store={appStore}>
-      <Component />
-    </Provider>,
-    document.getElementById('root')
-  )
-}
-
-render(App)
+renderApp({
+  app,
+  store,
+  bodyClassName: 'example'
+})
