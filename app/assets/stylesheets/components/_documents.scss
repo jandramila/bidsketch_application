@@ -1,0 +1,17 @@
+.documents {
+  position: relative;
+  background-color: #F7F7F7;
+
+  &__sidebar-wrapper {
+    width: 198px;
+    position: absolute;
+  }
+
+  &__document-page-wrapper {
+    margin-bottom: 97px;
+  }
+
+  &__content {
+    margin-top: 44px;
+  }
+}
