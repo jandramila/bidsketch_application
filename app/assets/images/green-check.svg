@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>numbering on</title>
+    <desc>Created with Sketch.</desc>
+    <g id="recipientLandingView-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="recipientLanding3" transform="translate(-79.000000, -265.000000)">
+            <g id="numbering-on-copy" transform="translate(62.000000, 265.000000)">
+                <path d="M17,16 C17,7.163444 24.1615011,0 33,0 L33,0 C41.836556,0 49,7.16150109 49,16 L49,16 C49,24.836556 41.8384989,32 33,32 L33,32 C24.163444,32 17,24.8384989 17,16 L17,16 Z" id="Rectangle-27" fill="#B2ED77"></path>
+                <polygon id="Path" fill="#FFFFFF" points="41.2642762 12.0271138 39.2198982 10 30.4366977 18.9457725 26.0084108 14.7203409 24 16.7862992 30.4741036 23 41.2642762 12.0271138"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
