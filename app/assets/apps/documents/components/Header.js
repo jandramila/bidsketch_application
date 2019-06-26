@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Line } from 'rc-progress';
+import { Line } from 'rc-progress'
 import ArrowLeft from 'images/arrow-left.svg'
+import { actions } from '../store'
 
 const COMPLETE_DOCUMENT_MSG = 'Document complete!'
 const UNCOMPLETE_DOCUMENT_MSG = 'Review & Complete document'
@@ -37,7 +38,7 @@ class Header extends React.Component {
   }
 
   render() {
-    const { checked, progress, total } = this.props;
+    const { checked, guidedFlow, progress, startGuidedFlow, total } = this.props;
     const completed = checked === total;
 
     return (
@@ -56,11 +57,12 @@ class Header extends React.Component {
           <div className="header__status-message">
             {completed ? COMPLETE_DOCUMENT_MSG : UNCOMPLETE_DOCUMENT_MSG}
           </div>
-          {!completed && (
+          {!completed && !guidedFlow &&(
             <input
               className="btn btn-rounded"
               type="button"
               value={GUIDED_FLOW_BTN_MSG}
+              onClick={() => startGuidedFlow()}
             />
           )}
           {completed && (
@@ -78,16 +80,24 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { pages } = state.document;
+  const {
+    document: { pages },
+    page: { guidedFlow },
+  } = state;
   const { checked, total } = pages.reduce((acc, page) => ({
     checked: acc.checked + page.checkboxes.filter(({ checked }) => checked).length,
     total: acc.total + page.checkboxes.length,
   }), { checked: 0, total: 0 });
   return {
     checked,
+    guidedFlow,
     progress: (checked / total) * 100,
     total,
   }
 }
 
-export default connect(mapStateToProps)(Header)
+const mapDispatchToProps = dispatch => ({
+  startGuidedFlow: () => dispatch(actions.startGuidedFlow()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

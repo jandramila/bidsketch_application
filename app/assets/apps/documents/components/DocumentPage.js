@@ -1,29 +1,42 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { find } from 'lodash'
+import Tooltip from 'rc-tooltip'
+import 'rc-tooltip/assets/bootstrap.css';
+import cn from 'classnames'
 import { actions } from '../store'
 
 class DocumentPage extends React.Component {
   render() {
-    const { currentPage, selectedPage, requestToggleCheckbox } = this.props;
+    const { currentPage, guidedFlow, selectedPage, requestToggleCheckbox } = this.props;
 
     if (!selectedPage) {
       return null;
     }
 
     const { checkboxes } = currentPage;
+    const firstUnchecked = find(checkboxes, { checked: false })
 
     return (
       <div className="document-page">
         <div className="document-page__page">
           {checkboxes.map(({ id, checked }) => (
-            <input
-              key={id}
+            <Tooltip
               className="document-page__checkbox"
-              type="checkbox"
-              checked={checked}
-              onChange={() => requestToggleCheckbox(selectedPage, id, !checked)}
-            />
+              key={id}
+              visible={guidedFlow && !!firstUnchecked && firstUnchecked.id === id}
+              overlay="Click to CHECK"
+              placement="top"
+            >
+              <input
+                className={cn('document-page__checkbox', {
+                  'document-page__checkbox--guided': guidedFlow && firstUnchecked && firstUnchecked.id === id
+                })}
+                type="checkbox"
+                checked={checked}
+                onChange={() => requestToggleCheckbox(selectedPage, id, !checked)}
+              />
+            </Tooltip>
           ))}
         </div>
       </div>
@@ -34,12 +47,13 @@ class DocumentPage extends React.Component {
 const mapStateToProps = state => {
   const {
     document: { pages },
-    page: { selectedPage },
+    page: { guidedFlow, selectedPage },
   } = state;
   const currentPage = find(pages, { id: selectedPage })
 
   return {
     currentPage,
+    guidedFlow,
     selectedPage,
   }
 }
