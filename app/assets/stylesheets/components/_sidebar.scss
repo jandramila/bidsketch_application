@@ -1,0 +1,35 @@
+.sidebar {
+  padding: 0 40px 15px;
+  border-right: 1px solid $grey-border-color;
+
+  &__page {
+    width: 117px;
+    height: 151px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: $grey-border-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: border-color 0.2s linear;
+    cursor: pointer;
+
+    &:hover:not(&--current) {
+      border-color: $gray-color-light;
+    }
+
+    &--current {
+      border-color: $brand-color-primary-light;
+    }
+
+    &__pill {
+      border-radius: 100px;
+      min-width: 65px;
+    }
+  }
+
+  &__page + &__page {
+    margin-top: 20px;
+  }
+}

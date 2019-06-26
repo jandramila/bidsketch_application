@@ -13,7 +13,8 @@ const commonConfig = {
   context: path.resolve('app/assets'),
   entry: {
     styles: './stylesheets/application.scss',
-    example: ['babel-polyfill', './apps/example/index.js']
+    example: ['babel-polyfill', './apps/example/index.js'],
+    documents: ['babel-polyfill', './apps/documents/index.js']
   },
   output: {
     path: path.resolve('tmp/assets'),

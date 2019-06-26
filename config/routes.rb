@@ -5,4 +5,11 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'style_guide', to: 'style_guide#show', as: :style_guide
   get 'example', to: 'example#show', as: :example
+  root to: 'documents#show'
+  
+  resources :documents, only: [] do
+    resources :pages, only: [] do
+      resources :checkboxes, only: [:update]
+    end
+  end
 end

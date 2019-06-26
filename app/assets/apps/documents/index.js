@@ -5,5 +5,5 @@ import store from './store'
 renderApp({
   app,
   store,
-  bodyClassName: 'example'
+  bodyClassName: 'documents'
 })

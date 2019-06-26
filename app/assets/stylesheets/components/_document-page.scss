@@ -1,0 +1,42 @@
+.document-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__page {
+    width: 693px;
+    height: 899px;
+    border: 1px solid #9EA0AB;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;    
+    align-items: center;
+    padding-top: 200px;
+  }
+
+  &__checkbox {
+    transform: scale(1.3);
+    transition: box-shadow 0.3s ease-in-out;
+
+    &--guided {
+      box-shadow: 0 0 0 2px #49AFBE;
+    }
+  }
+
+  &__checkbox + &__checkbox {
+    margin-top: 42px;
+  }
+
+}
+
+.rc-tooltip-arrow {
+  border-top-color: #49AFBD !important;
+}
+
+.rc-tooltip-inner {
+  background-color: #49AFBD !important;
+  border-radius: 100px !important;
+}
