@@ -9,6 +9,9 @@ class DocumentsController < ApplicationController
       document: {
         id: sample_document.id,
         pages: pages,
+      },
+      page: {
+        selectedPage: sample_document.pages.first.id
       }
   end
 end
