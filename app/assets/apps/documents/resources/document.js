@@ -42,10 +42,38 @@ export function reducer (state = {}, action = {}) {
   }
 }
 
+// Endpoints
+
+const updateCheckbox = (documentId, pageId, id, checked) => {
+  const url = `/documents/${documentId}/pages/${pageId}/checkboxes/${id}`
+  return fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      checked,
+    })
+  });
+}
+
 // Action Creators
 
 const toggleCheckbox = (pageId, id, checked) => ({ type: actionTypes.TOGGLE_CHECKBOX, pageId, id, checked })
+const requestToggleCheckbox = (pageId, id, checked) => async (dispatch, getState) => {
+  // Do optimistic update
+  dispatch(toggleCheckbox(pageId, id, checked))
+  try {
+    const { id: documentId } = getState().document
+    await updateCheckbox(documentId, pageId, id, checked)
+  } catch (error) {
+    console.error(error)
+    // Undo optimistic update if operation failed for some reason
+    dispatch(toggleCheckbox(pageId, id, !checked))
+  }
+}
 
 export const actions = {
+  requestToggleCheckbox,
   toggleCheckbox,
 }

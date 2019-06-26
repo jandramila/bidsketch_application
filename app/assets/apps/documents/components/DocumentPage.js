@@ -5,7 +5,7 @@ import { actions } from '../store'
 
 class DocumentPage extends React.Component {
   render() {
-    const { currentPage, selectedPage, toggleCheckbox } = this.props;
+    const { currentPage, selectedPage, requestToggleCheckbox } = this.props;
 
     if (!selectedPage) {
       return null;
@@ -22,7 +22,7 @@ class DocumentPage extends React.Component {
               className="document-page__checkbox"
               type="checkbox"
               checked={checked}
-              onChange={() => toggleCheckbox(selectedPage, id, !checked)}
+              onChange={() => requestToggleCheckbox(selectedPage, id, !checked)}
             />
           ))}
         </div>
@@ -45,7 +45,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  toggleCheckbox: (pageId, id, checked) => dispatch(actions.toggleCheckbox(pageId, id, checked))
+  requestToggleCheckbox: (pageId, id, checked) => dispatch(actions.requestToggleCheckbox(pageId, id, checked))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentPage)
