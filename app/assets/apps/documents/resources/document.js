@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 
 export const actionTypes = {
+  FINISH_DOCUMENT: 'documents/FINISH_DOCUMENT',
   TOGGLE_CHECKBOX: 'documents/TOGGLE_CHECKBOX',
 }
 
@@ -18,6 +19,11 @@ function toggleCheckboxInCollection(checkboxesCollection, id, checked) {
 
 export function reducer (state = {}, action = {}) {
   switch (action.type) {
+    case actionTypes.FINISH_DOCUMENT:
+      return {
+        ...state,
+        blocked: true,
+      }
     case actionTypes.TOGGLE_CHECKBOX: {
       const { pageId, id, checked } = action
       const { pages: previousPages } = state
@@ -59,6 +65,7 @@ const updateCheckbox = (documentId, pageId, id, checked) => {
 
 // Action Creators
 
+const finishDocument = () => ({ type: actionTypes.FINISH_DOCUMENT })
 const toggleCheckbox = (pageId, id, checked) => ({ type: actionTypes.TOGGLE_CHECKBOX, pageId, id, checked })
 const requestToggleCheckbox = (pageId, id, checked) => async (dispatch, getState) => {
   // Do optimistic update
@@ -74,6 +81,7 @@ const requestToggleCheckbox = (pageId, id, checked) => async (dispatch, getState
 }
 
 export const actions = {
+  finishDocument,
   requestToggleCheckbox,
   toggleCheckbox,
 }

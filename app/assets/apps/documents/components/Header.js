@@ -38,7 +38,15 @@ class Header extends React.Component {
   }
 
   render() {
-    const { checked, guidedFlow, progress, startGuidedFlow, total } = this.props;
+    const {
+      blocked,
+      checked,
+      finishDocument,
+      guidedFlow,
+      progress,
+      startGuidedFlow,
+      total,
+    } = this.props;
     const completed = checked === total;
 
     return (
@@ -65,11 +73,12 @@ class Header extends React.Component {
               onClick={() => startGuidedFlow()}
             />
           )}
-          {completed && (
+          {completed && !blocked && (
             <input
               className="btn btn-rounded header__save-btn"
               type="button"
               value={SAVE_BTN_MSG}
+              onClick={() => finishDocument()}
             />
           )}
         </div>
@@ -81,7 +90,7 @@ class Header extends React.Component {
 
 const mapStateToProps = state => {
   const {
-    document: { pages },
+    document: { pages, blocked },
     page: { guidedFlow },
   } = state;
   const { checked, total } = pages.reduce((acc, page) => ({
@@ -89,6 +98,7 @@ const mapStateToProps = state => {
     total: acc.total + page.checkboxes.length,
   }), { checked: 0, total: 0 });
   return {
+    blocked,
     checked,
     guidedFlow,
     progress: (checked / total) * 100,
@@ -97,6 +107,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
+  finishDocument: () => dispatch(actions.finishDocument()),
   startGuidedFlow: () => dispatch(actions.startGuidedFlow()),
 })
 

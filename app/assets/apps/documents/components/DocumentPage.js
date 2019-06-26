@@ -8,7 +8,13 @@ import { actions } from '../store'
 
 class DocumentPage extends React.Component {
   render() {
-    const { currentPage, guidedFlow, selectedPage, requestToggleCheckbox } = this.props;
+    const {
+      blocked,
+      currentPage,
+      guidedFlow,
+      selectedPage,
+      requestToggleCheckbox,
+    } = this.props;
 
     if (!selectedPage) {
       return null;
@@ -35,6 +41,7 @@ class DocumentPage extends React.Component {
                 type="checkbox"
                 checked={checked}
                 onChange={() => requestToggleCheckbox(selectedPage, id, !checked)}
+                disabled={blocked}
               />
             </Tooltip>
           ))}
@@ -46,12 +53,13 @@ class DocumentPage extends React.Component {
 
 const mapStateToProps = state => {
   const {
-    document: { pages },
+    document: { blocked, pages },
     page: { guidedFlow, selectedPage },
   } = state;
   const currentPage = find(pages, { id: selectedPage })
 
   return {
+    blocked,
     currentPage,
     guidedFlow,
     selectedPage,
