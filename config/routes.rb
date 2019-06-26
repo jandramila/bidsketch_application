@@ -6,4 +6,10 @@ Rails.application.routes.draw do
   get 'style_guide', to: 'style_guide#show', as: :style_guide
   get 'example', to: 'example#show', as: :example
   root to: 'documents#show'
+  
+  resources :documents, only: [] do
+    resources :pages, only: [] do
+      resources :checkboxes, only: [:update]
+    end
+  end
 end
