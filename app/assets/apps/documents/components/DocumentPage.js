@@ -1,27 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { find } from 'lodash'
+import { actions } from '../store'
 
 class DocumentPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      checkboxes: [ { id: 3, checked: false }, { id: 4, checked: false } ],
-    }
-  }
-
-  toggleCheckbox = (toggledId, checked) => {
-    const { checkboxes: previousCheckboxes } = this.state;
-    const checkboxes = previousCheckboxes.map((checkbox) => {
-      const { id } = checkbox;
-      if (id === toggledId) {
-        return { id, checked }
-      }
-      return checkbox
-    })
-    this.setState({ checkboxes })
-  }
-
   render() {
-    const { checkboxes } = this.state;
+    const { currentPage, selectedPage, toggleCheckbox } = this.props;
+
+    if (!selectedPage) {
+      return null;
+    }
+
+    const { checkboxes } = currentPage;
 
     return (
       <div className="document-page">
@@ -32,7 +22,7 @@ class DocumentPage extends React.Component {
               className="document-page__checkbox"
               type="checkbox"
               checked={checked}
-              onChange={() => this.toggleCheckbox(id, !checked)}
+              onChange={() => toggleCheckbox(selectedPage, id, !checked)}
             />
           ))}
         </div>
@@ -41,4 +31,21 @@ class DocumentPage extends React.Component {
   }
 }
 
-export default DocumentPage
+const mapStateToProps = state => {
+  const {
+    document: { pages },
+    page: { selectedPage },
+  } = state;
+  const currentPage = find(pages, { id: selectedPage })
+
+  return {
+    currentPage,
+    selectedPage,
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  toggleCheckbox: (pageId, id, checked) => dispatch(actions.toggleCheckbox(pageId, id, checked))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DocumentPage)

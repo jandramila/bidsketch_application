@@ -1,6 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import cn from 'classnames'
 import GreenCheck from 'images/green-check.svg'
+import { actions } from '../store'
 
 class Sidebar extends React.Component {
 
@@ -31,15 +33,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const pages = [
-      { id: 1, checkboxes: [ { id: 1, checked: true }, { id: 2, checked: true } ] },
-      { id: 2, checkboxes: [ { id: 3, checked: false }, { id: 4, checked: false } ] },
-      { id: 3, checkboxes: [] },
-      { id: 4, checkboxes: [] },
-      { id: 5, checkboxes: [] }
-    ]
-
-    const currentPageId = 1
+    const { pages, selectedPage, changePage } = this.props;
 
     return (
       <div className="sidebar row">
@@ -47,8 +41,9 @@ class Sidebar extends React.Component {
           <div
             key={id}
             className={cn("sidebar__page", "col-1/1", {
-              "sidebar__page--current": id === currentPageId,
+              "sidebar__page--current": id === selectedPage,
             })}
+            onClick={() => changePage(id)}
           >
             {this.getPageIcon(checkboxes)}
           </div>
@@ -58,4 +53,13 @@ class Sidebar extends React.Component {
   }
 }
 
-export default Sidebar
+const mapStateToProps = state => ({
+  pages: state.document.pages,
+  selectedPage: state.page.selectedPage,
+})
+
+const mapDispatchToProps = dispatch => ({
+  changePage: page => dispatch(actions.changePage(page))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

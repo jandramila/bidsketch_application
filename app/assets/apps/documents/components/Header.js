@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Line } from 'rc-progress';
 import ArrowLeft from 'images/arrow-left.svg'
 
@@ -8,8 +9,9 @@ const GUIDED_FLOW_BTN_MSG = 'Click to START'
 const SAVE_BTN_MSG = 'Save & finish document'
 
 class Header extends React.Component {
-  renderProgress(percentage) {
-    if (percentage === 0) {
+  renderProgress() {
+    const { checked, progress, total } = this.props;
+    if (progress === 0) {
       return (
         <div className="header__progress col-12/12" />
       )
@@ -21,21 +23,23 @@ class Header extends React.Component {
           className="header__progress-bar"
           strokeColor="#51B7C5"
           trailColor="#CFCFCF"
-          percent={percentage}
+          percent={progress}
           strokeLinecap="butt"
         />
         <div
           className="header__progress-message"
-          style={{ transform: `translate(-${100 - percentage}%)` }}
+          style={{ transform: `translate(-${100 - progress}%)` }}
         >
-          2/4
+          {checked}/{total}
         </div>
       </div>
     )
   }
 
   render() {
-    const percentage = 50;
+    const { checked, progress, total } = this.props;
+    const completed = checked === total;
+
     return (
       <div className="header row">
         <div className="header__upper col-12/12" >
@@ -50,23 +54,40 @@ class Header extends React.Component {
         </div>
         <div className="header__lower col-12/12">
           <div className="header__status-message">
-            {UNCOMPLETE_DOCUMENT_MSG}
+            {completed ? COMPLETE_DOCUMENT_MSG : UNCOMPLETE_DOCUMENT_MSG}
           </div>
-          <input
-            className="btn btn-rounded"
-            type="button"
-            value={GUIDED_FLOW_BTN_MSG}
-          />
-          <input
-            className="btn btn-rounded header__save-btn"
-            type="button"
-            value={SAVE_BTN_MSG}
-          />
+          {!completed && (
+            <input
+              className="btn btn-rounded"
+              type="button"
+              value={GUIDED_FLOW_BTN_MSG}
+            />
+          )}
+          {completed && (
+            <input
+              className="btn btn-rounded header__save-btn"
+              type="button"
+              value={SAVE_BTN_MSG}
+            />
+          )}
         </div>
-        {this.renderProgress(percentage)}
+        {this.renderProgress()}
       </div>
     )
   }
 }
 
-export default Header
+const mapStateToProps = state => {
+  const { pages } = state.document;
+  const { checked, total } = pages.reduce((acc, page) => ({
+    checked: acc.checked + page.checkboxes.filter(({ checked }) => checked).length,
+    total: acc.total + page.checkboxes.length,
+  }), { checked: 0, total: 0 });
+  return {
+    checked,
+    progress: (checked / total) * 100,
+    total,
+  }
+}
+
+export default connect(mapStateToProps)(Header)
